@@ -1,0 +1,35 @@
+# Quartermaster for one project, as a systemd system service: `quartermaster@<name>`.
+# <name> picks ~/.config/quartermaster/<name>.env, which must set QM_CONFIG (the project's
+# quartermaster.json) and the tracker secrets (JIRA_EMAIL, JIRA_API_TOKEN, or GH_TOKEN).
+#
+# Install (replace YOUR_USER and the checkout path; see README "Run it as a service"):
+#   sudo cp systemd/quartermaster@.service /etc/systemd/system/
+#   sudo systemctl daemon-reload
+#   sudo systemctl enable --now quartermaster@myproject
+#   journalctl -u quartermaster@myproject -f
+#
+# The poller re-executes itself between runs when Quartermaster's code changes, so a restart
+# is needed only after editing the unit or the env file. A stop also ends a run in progress.
+
+[Unit]
+Description=Quartermaster issue poller (%i)
+Wants=network-online.target
+After=network-online.target
+
+[Service]
+Type=simple
+User=YOUR_USER
+EnvironmentFile=/home/YOUR_USER/.config/quartermaster/%i.env
+Environment=PYTHONUNBUFFERED=1
+Environment=PATH=/home/YOUR_USER/.local/bin:/usr/local/bin:/usr/bin:/bin
+ExecStart=/usr/bin/python3 /home/YOUR_USER/quartermaster/bin/quartermaster watch
+Restart=on-failure
+RestartSec=60
+Nice=10
+IOSchedulingClass=idle
+# A run in progress gets a minute to exit after a stop; then it is killed.
+KillMode=control-group
+TimeoutStopSec=60
+
+[Install]
+WantedBy=multi-user.target

@@ -1,0 +1,52 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <meta http-equiv="Content-Security-Policy"
+        content="default-src 'self'; script-src 'self'; style-src 'self'; img-src 'self' data:; connect-src 'self'; base-uri 'none'; form-action 'none'; object-src 'none'">
+  <meta name="referrer" content="no-referrer">
+  <meta name="color-scheme" content="dark">
+  <title>Quartermaster</title>
+  <link rel="stylesheet" href="app.css">
+  <script type="module" src="app.js"></script>
+</head>
+<body>
+  <header class="topbar">
+    <span class="dot" id="svc-dot" title="Quartermaster service"></span>
+    <h1>Quartermaster</h1>
+    <span class="slug" id="project-name"></span>
+    <span class="spacer"></span>
+    <span class="refreshed" id="refreshed">connecting…</span>
+  </header>
+  <div class="layout">
+    <nav class="side" id="nav" aria-label="Sections">
+      <a href="#/overview" data-view="overview"><span class="ico" aria-hidden="true">◉</span><span>Overview</span></a>
+      <a href="#/issues" data-view="issues"><span class="ico" aria-hidden="true">☰</span><span>Issues</span></a>
+      <a href="#/runs" data-view="runs"><span class="ico" aria-hidden="true">▶</span><span>Runs</span></a>
+      <a href="#/sessions" data-view="sessions"><span class="ico" aria-hidden="true">◇</span><span>Sessions</span></a>
+      <a href="#/log" data-view="log"><span class="ico" aria-hidden="true">≡</span><span>Service log</span></a>
+    </nav>
+    <main id="main" tabindex="-1"></main>
+  </div>
+
+  <dialog id="confirm">
+    <h2 id="confirm-title"></h2>
+    <p id="confirm-text"></p>
+    <div class="actions">
+      <button class="btn" id="confirm-no" type="button">Cancel</button>
+      <button class="btn danger" id="confirm-yes" type="button">Confirm</button>
+    </div>
+  </dialog>
+
+  <dialog id="modal" class="wide">
+    <div class="dlg-head">
+      <h2 id="modal-title"></h2>
+      <button class="btn small" id="modal-close" type="button">Close</button>
+    </div>
+    <div class="dlg-body" id="modal-body"></div>
+  </dialog>
+
+  <div class="toasts" id="toasts" aria-live="polite"></div>
+</body>
+</html>

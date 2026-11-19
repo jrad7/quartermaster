@@ -1,0 +1,26 @@
+{
+  "name": "myproject",
+  "tracker": {
+    "type": "github",
+    "repo": "owner/repo"
+  },
+  "owner": "me",
+  "workspace": ".",
+  "plan_dir": "planning/issues",
+  "label_prefix": "claude:",
+  "commands": {
+    "plan": "/qm-plan {key}",
+    "revise": "/qm-plan {key} revise",
+    "fix": "/qm-plan {key} fix",
+    "work": "/qm-work {key}"
+  },
+  "interval": 120,
+  "run": {
+    "env": {},
+    "note": ""
+  },
+  "dashboard": {
+    "port": 8770,
+    "service": "quartermaster@myproject"
+  }
+}

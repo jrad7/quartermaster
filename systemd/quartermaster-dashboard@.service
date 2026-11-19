@@ -1,0 +1,25 @@
+# Quartermaster's local dashboard for one project: `quartermaster-dashboard@<name>`, serving
+# http://127.0.0.1:<dashboard.port>/ (from the project's quartermaster.json). Shares
+# ~/.config/quartermaster/<name>.env with the poller. Install it like quartermaster@.service.
+#
+# The dashboard's Start/Stop/Restart buttons run `sudo -n systemctl <verb> <dashboard.service>`,
+# which needs a NOPASSWD sudoers rule for exactly those commands.
+
+[Unit]
+Description=Quartermaster dashboard (%i)
+After=network.target
+
+[Service]
+Type=simple
+User=YOUR_USER
+EnvironmentFile=/home/YOUR_USER/.config/quartermaster/%i.env
+Environment=PYTHONUNBUFFERED=1
+Environment=PATH=/home/YOUR_USER/.local/bin:/usr/local/bin:/usr/bin:/bin
+ExecStart=/usr/bin/python3 /home/YOUR_USER/quartermaster/bin/quartermaster dashboard
+Restart=on-failure
+RestartSec=10
+Nice=10
+KillMode=process
+
+[Install]
+WantedBy=multi-user.target
